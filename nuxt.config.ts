@@ -1,21 +1,24 @@
+const isProduction = process.env.NODE_ENV === 'production'
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
   
   modules: ['@pinia/nuxt'],
   
-  css: ['leaflet/dist/leaflet.css'],
-  
   nitro: {
-    preset: 'node-server'
+    preset: 'static'
   },
 
+  css: ['leaflet/dist/leaflet.css'],
+  
   vite: {
     optimizeDeps: {
       include: ['three', 'leaflet']
     }
   },
-   app: {
-    baseURL: 'https://github.com/Igornikolaev93/map'  // <- ВАЖНО: название вашего репозитория
+
+  app: {
+    baseURL: isProduction ? '/map/' : '/'
   },
 
   compatibilityDate: '2024-08-12'
