@@ -1,3 +1,7 @@
+// nuxt.config.ts
+const isGithubPages = process.env.GITHUB_ACTIONS === 'true'
+const isDev = process.env.NODE_ENV === 'development'
+
 export default defineNuxtConfig({
   devtools: { enabled: true },
   
@@ -7,39 +11,17 @@ export default defineNuxtConfig({
     preset: 'static'
   },
 
-  // Убираем глобальный импорт CSS
-  // css: [],
+  css: ['leaflet/dist/leaflet.css'],
   
   vite: {
     optimizeDeps: {
       include: ['three', 'leaflet']
-    },
-    css: {
-      // Отключаем минификацию CSS во время сборки
-      devSourcemap: false
     }
   },
 
+  // Автоматически выбирает правильный baseURL
   app: {
-    baseURL: '/map/',
-    head: {
-      link: [
-        {
-          rel: 'stylesheet',
-          href: 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
-        }
-      ],
-      script: [
-        {
-          src: 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
-        }
-      ]
-    }
-  },
-
-  build: {
-    // Отключаем оптимизацию CSS
-    postcss: false
+    baseURL: isGithubPages ? '/map/' : '/'
   },
 
   compatibilityDate: '2024-08-12'
