@@ -1,5 +1,3 @@
-const isProduction = process.env.NODE_ENV === 'production'
-
 export default defineNuxtConfig({
   devtools: { enabled: true },
   
@@ -14,12 +12,35 @@ export default defineNuxtConfig({
   vite: {
     optimizeDeps: {
       include: ['three', 'leaflet']
+    },
+    css: {
+      preprocessorOptions: {
+        css: {
+          // Отключаем некоторые оптимизации PostCSS
+        }
+      }
     }
   },
 
   app: {
-    baseURL: isProduction ? '/map/' : '/'
+    baseURL: '/map/'
   },
 
-  compatibilityDate: '2024-08-12'
+  compatibilityDate: '2024-08-12',
+
+  // Добавьте это для отключения проблемных оптимизаций
+  build: {
+    // Отключаем оптимизацию CSS
+    postcss: {
+      plugins: {
+        'postcss-merge-longhand': false,
+        'cssnano': {
+          preset: ['default', {
+            mergeLonghand: false,
+            mergeRules: false
+          }]
+        }
+      }
+    }
+  }
 })
