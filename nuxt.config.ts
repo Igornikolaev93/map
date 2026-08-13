@@ -7,40 +7,40 @@ export default defineNuxtConfig({
     preset: 'static'
   },
 
-  css: ['leaflet/dist/leaflet.css'],
+  // Убираем глобальный импорт CSS
+  // css: [],
   
   vite: {
     optimizeDeps: {
       include: ['three', 'leaflet']
     },
     css: {
-      preprocessorOptions: {
-        css: {
-          // Отключаем некоторые оптимизации PostCSS
-        }
-      }
+      // Отключаем минификацию CSS во время сборки
+      devSourcemap: false
     }
   },
 
   app: {
-    baseURL: '/map/'
+    baseURL: '/map/',
+    head: {
+      link: [
+        {
+          rel: 'stylesheet',
+          href: 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
+        }
+      ],
+      script: [
+        {
+          src: 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
+        }
+      ]
+    }
   },
 
-  compatibilityDate: '2024-08-12',
-
-  // Добавьте это для отключения проблемных оптимизаций
   build: {
     // Отключаем оптимизацию CSS
-    postcss: {
-      plugins: {
-        'postcss-merge-longhand': false,
-        'cssnano': {
-          preset: ['default', {
-            mergeLonghand: false,
-            mergeRules: false
-          }]
-        }
-      }
-    }
-  }
+    postcss: false
+  },
+
+  compatibilityDate: '2024-08-12'
 })
