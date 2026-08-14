@@ -11,8 +11,8 @@ export default defineNuxtConfig({
     preset: 'static'
   },
 
-  // Убираем ВСЕ CSS импорты
-  css: [],
+  // Добавляем глобальный CSS
+  css: ['~/assets/styles.css'],
   
   vite: {
     optimizeDeps: {
