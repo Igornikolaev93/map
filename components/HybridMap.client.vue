@@ -1,3 +1,4 @@
+<!-- components/HybridMap.client.vue -->
 <template>
   <div class="hybrid-container">
     <!-- 3D Глобус -->
@@ -436,7 +437,6 @@ function onGlobeClick(event) {
   
   raycaster.setFromCamera(mouse, camera)
   
-  // Проверяем клик по маркерам
   const allMeshes = []
   markerGroups.forEach(group => {
     group.children.forEach(child => {
@@ -504,7 +504,6 @@ function onGlobeWheel(event) {
 }
 
 function onMapClick(e) {
-  // Если включен режим добавления - показываем форму
   if (addMode.value) {
     tempClickPosition = { lat: e.latlng.lat, lng: e.latlng.lng }
     showAddForm.value = true
@@ -513,8 +512,6 @@ function onMapClick(e) {
     return
   }
   
-  // Просто закрываем информацию о месте, если она открыта
-  // Метка НЕ перемещается и НЕ выбирается автоматически
   if (selectedPlace.value) {
     selectedPlace.value = null
   }
@@ -601,7 +598,6 @@ function refreshMarkers() {
 function updateGlobeMarkers() {
   if (!scene || !globe) return
   
-  // ПОЛНАЯ ОЧИСТКА
   markerGroups.forEach(group => {
     if (group.parent) globe.remove(group)
     group.children.forEach(child => {
@@ -623,12 +619,10 @@ function updateGlobeMarkers() {
   markers.forEach((place, index) => {
     const pos = latLngToPosition(place.lat, place.lng)
     const color = getColorHex(index)
-    const colorStr = getColor(index)
     
     const group = new THREE.Group()
     group.position.copy(pos)
     
-    // Основной маркер
     const sphereGeom = new THREE.SphereGeometry(0.04, 16, 16)
     const sphereMat = new THREE.MeshPhongMaterial({
       color: color,
@@ -641,7 +635,6 @@ function updateGlobeMarkers() {
     sphere.userData.type = 'marker'
     group.add(sphere)
     
-    // Свечение
     const glowGeom = new THREE.SphereGeometry(0.055, 16, 16)
     const glowMat = new THREE.MeshBasicMaterial({
       color: color,
@@ -651,11 +644,9 @@ function updateGlobeMarkers() {
     const glow = new THREE.Mesh(glowGeom, glowMat)
     group.add(glow)
     
-    // ДОБАВЛЯЕМ МАРКЕР КАК ДОЧЕРНИЙ ЭЛЕМЕНТ ГЛОБУСА
     globe.add(group)
     markerGroups.push(group)
     
-    // Текстовая метка
     if (showLabels.value) {
       const canvas = document.createElement('canvas')
       canvas.width = 256
@@ -696,7 +687,6 @@ function updateGlobeMarkers() {
       sprite.position.copy(labelPos)
       sprite.scale.set(0.35, 0.1, 1)
       
-      // ДОБАВЛЯЕМ МЕТКУ КАК ДОЧЕРНИЙ ЭЛЕМЕНТ ГЛОБУСА
       globe.add(sprite)
       labelSprites.push(sprite)
     }
@@ -1003,7 +993,7 @@ onUnmounted(() => {
 })
 </script>
 
-<style scoped>
+<style>
 .hybrid-container {
   position: relative;
   width: 100%;
@@ -1041,24 +1031,24 @@ onUnmounted(() => {
   pointer-events: auto;
 }
 
-.map-layer :deep(.leaflet-control-zoom) {
+.map-layer .leaflet-control-zoom {
   display: none !important;
 }
 
-.map-layer :deep(.leaflet-tile-pane) {
+.map-layer .leaflet-tile-pane {
   filter: brightness(0.95) contrast(1.1);
 }
 
-.map-layer :deep(.custom-marker) {
+.map-layer .custom-marker {
   background: none;
   border: none;
 }
 
-.map-layer :deep(.custom-marker div:hover) {
+.map-layer .custom-marker div:hover {
   transform: scale(1.2) !important;
 }
 
-.map-layer :deep(.custom-popup .leaflet-popup-content-wrapper) {
+.map-layer .custom-popup .leaflet-popup-content-wrapper {
   border-radius: 12px;
   background: rgba(0, 0, 0, 0.9);
   color: white;
@@ -1066,7 +1056,7 @@ onUnmounted(() => {
   border: 1px solid rgba(255,255,255,0.1);
 }
 
-.map-layer :deep(.custom-popup .leaflet-popup-tip) {
+.map-layer .custom-popup .leaflet-popup-tip {
   background: rgba(0, 0, 0, 0.9);
 }
 

@@ -11,13 +11,12 @@ export default defineNuxtConfig({
     preset: 'static'
   },
 
+  // Убираем ВСЕ CSS импорты
+  css: [],
+  
   vite: {
     optimizeDeps: {
       include: ['three', 'leaflet']
-    },
-    css: {
-      // Отключаем минификацию CSS
-      devSourcemap: false
     }
   },
 
@@ -38,7 +37,7 @@ export default defineNuxtConfig({
     }
   },
 
-  // Отключаем PostCSS полностью
+  // Полностью отключаем PostCSS
   build: {
     postcss: false
   },

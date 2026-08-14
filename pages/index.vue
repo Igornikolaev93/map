@@ -25,7 +25,7 @@
         <template #fallback>
           <div class="loading">
             <div class="loader"></div>
-            <p>Загрузка...</p>
+            <p>Загрузка карты...</p>
           </div>
         </template>
       </ClientOnly>
@@ -50,7 +50,8 @@ function clearFilter() {
 }
 </script>
 
-<style scoped>
+<!-- Убираем scoped и используем глобальные стили -->
+<style>
 .page-container {
   min-height: 100vh;
   display: flex;
