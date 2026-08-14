@@ -11,14 +11,12 @@ export default defineNuxtConfig({
     preset: 'static'
   },
 
-  // Убираем ВСЕ CSS импорты
   css: [],
   
   vite: {
     optimizeDeps: {
       include: ['three', 'leaflet']
     },
-    // Отключаем обработку CSS
     css: {
       preprocessorOptions: {},
       postcss: false
@@ -30,11 +28,26 @@ export default defineNuxtConfig({
     head: {
       meta: [
         { charset: 'utf-8' },
+        // Основной viewport
         { name: 'viewport', content: 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no' },
-        { name: 'theme-color', content: '#0a0a1a' },
+        
+        // Для PWA на мобильных (современный стандарт)
+        { name: 'mobile-web-app-capable', content: 'yes' },
+        
+        // Для iOS (все еще поддерживается, но лучше использовать вместе с mobile-web-app-capable)
         { name: 'apple-mobile-web-app-capable', content: 'yes' },
+        
+        // Цвет темы для браузера
+        { name: 'theme-color', content: '#0a0a1a' },
+        
+        // Стиль статус-бара для iOS
         { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
-        { name: 'format-detection', content: 'telephone=no' }
+        
+        // Отключение автоопределения телефонов
+        { name: 'format-detection', content: 'telephone=no' },
+        
+        // Описание для SEO
+        { name: 'description', content: 'Интерактивная гибридная карта путешествий с 3D глобусом' }
       ],
       link: [
         {
@@ -49,6 +62,10 @@ export default defineNuxtConfig({
         {
           rel: 'apple-touch-icon',
           href: '/apple-touch-icon.png'
+        },
+        {
+          rel: 'manifest',
+          href: '/manifest.json'
         }
       ],
       script: [
@@ -58,28 +75,13 @@ export default defineNuxtConfig({
       ],
       htmlAttrs: {
         lang: 'ru'
-      },
-      bodyAttrs: {
-        class: 'antialiased'
       }
     }
   },
 
-  // Отключаем PostCSS через build
   build: {
     postcss: {
       plugins: {}
-    }
-  },
-
-  // Настройки для SSR
-  ssr: true,
-
-  // Настройки для кэширования
-  nitro: {
-    preset: 'static',
-    static: {
-      ignore: ['**/*.html']
     }
   },
 
