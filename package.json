@@ -22,8 +22,5 @@
   "devDependencies": {
     "@types/leaflet": "^1.9.22",
     "@types/three": "^0.185.4"
-  },
-  "overrides": {
-    "postcss": "^8.4.31"
   }
 }

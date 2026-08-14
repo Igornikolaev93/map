@@ -11,12 +11,17 @@ export default defineNuxtConfig({
     preset: 'static'
   },
 
-  // Добавляем глобальный CSS
-  css: ['~/assets/styles.css'],
+  // Убираем ВСЕ CSS импорты
+  css: [],
   
   vite: {
     optimizeDeps: {
       include: ['three', 'leaflet']
+    },
+    // Отключаем обработку CSS
+    css: {
+      preprocessorOptions: {},
+      postcss: false
     }
   },
 
@@ -37,9 +42,11 @@ export default defineNuxtConfig({
     }
   },
 
-  // Полностью отключаем PostCSS
+  // Отключаем PostCSS через build
   build: {
-    postcss: false
+    postcss: {
+      plugins: {}
+    }
   },
 
   compatibilityDate: '2024-08-12'
